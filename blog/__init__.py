@@ -1,4 +1,5 @@
-import os
+from os import environ
+from os.path import dirname, join
 
 from flask import Flask, g
 
@@ -7,15 +8,14 @@ from . import auth, db
 
 app = Flask(__name__)
 
-# use sqlite database
 # use from_mapping for configuration data and settings shareable across the app
 app.config.from_mapping(
     # private variable to secure the Flask sessions (cookies) from tampering
-    SECRET_KEY=os.environ.get(
+    SECRET_KEY=environ.get(
         'SECRET_KEY', 'djgddgdkbgdihbfhfhrurwowruu384573wrpe2dwjd2bh@##$FSHF'),
 
-    OIDC_CLIENT_SECRETS=join(os.path.dirname(
-        os.path.dirname(__file__)), "client_secrets.json"),
+    OIDC_CLIENT_SECRETS=join(
+        dirname(dirname(__file__)), "client_secrets.json"),
 
     # test out login and registration in development without using SSL
     OIDC_COOKIE_SECURE=False,
@@ -27,8 +27,10 @@ app.config.from_mapping(
     OIDC_SCOPES=["openid", "email", "profile"],
 
     OIDC_ID_TOKEN_COOKIE_NAME="oidc_token",
+
+    # use sqlite database
     SQLALCHEMY_DATABASE_URI="sqlite:///" + \
-    os.path.join(dirname(dirname(__file__)), "database.sqlite"),
+    join(dirname(dirname(__file__)), "database.sqlite"),
 )
 
 # initialize Flask-SQLAlchemy properly
