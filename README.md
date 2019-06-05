@@ -13,4 +13,4 @@ A simple Flask CRUD application with secure [Okta authentication](https://develo
 * Run `virtualenv ../flask-okta-venv --python=python3` for Mac/Linux.
 * Run `source ../flask-okta-venv/bin/activate` for Mac/Linux.
 * Run `pip install -r requirements.txt`.
-* Run `FLASK_APP=blog flask run` to start the app. The app will be served on `http://127.0.0.1:5000/` and display `"Hello, World!"`
+* Run `FLASK_APP=blog flask run` to start the app.
