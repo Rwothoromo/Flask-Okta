@@ -1,1 +1,15 @@
 <!-- blog/templates/blog/post.html - page for displaying a blog post -->
+
+{% extends "layout.html" %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block body %}
+<h2 class="text-center">{{ post.title }}</h2>
+<div class="row">
+    <div class="offset-sm-2 col-sm-8">
+        <div class="body">{{ post.body|safe }}</div>
+        <p class="author">By {{ post.author_name }}</p>
+    </div>
+</div>
+{% endblock %}

@@ -1,1 +1,12 @@
 <!-- blog/templates/errors/403.html - shown in case of a 403 (Access Forbidden!) error -->
+
+{% extends "layout.html" %}
+
+{% block title %}Unauthorized Access!{% endblock %}
+
+{% block body %}
+<h1 class="text-center">Unauthorized Access!</h1>
+<p class="text-center">
+    You need to have the right permissions to view this page! Please contact your Admin!
+</p>
+{% endblock %}

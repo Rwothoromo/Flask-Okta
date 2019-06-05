@@ -1,1 +1,10 @@
 <!-- blog/templates/errors/404.html - shown in case of a 404 (Not Found!) error -->
+
+{% extends "layout.html" %}
+
+{% block title %}Page Not Found!{% endblock %}
+
+{% block body %}
+<h1 class="text-center">Page Not Found!</h1>
+<p class="text-center">Clearly, you're doing something wrong! :(</p>
+{% endblock %}
