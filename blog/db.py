@@ -37,5 +37,6 @@ def init_app(app):
     """Initialize the Flask app for database usage."""
 
     db.init_app(app)
+
     # Allow usage of the cli command `FLASK_APP=blog flask init-db`
     app.cli.add_command(init_db_command)
