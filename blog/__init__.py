@@ -1,9 +1,9 @@
 from os import environ
 from os.path import dirname, join
 
-from flask import Flask, g
+from flask import Flask, g, render_template
 
-from . import auth, db
+from . import auth, blog, db
 
 
 app = Flask(__name__)
@@ -14,6 +14,7 @@ app.config.from_mapping(
     SECRET_KEY=environ.get(
         'SECRET_KEY', 'djgddgdkbgdihbfhfhrurwowruu384573wrpe2dwjd2bh@##$FSHF'),
 
+    # get the root url and concantenate it with the client secrets file
     OIDC_CLIENT_SECRETS=join(
         dirname(dirname(__file__)), "client_secrets.json"),
 
@@ -33,16 +34,14 @@ app.config.from_mapping(
     join(dirname(dirname(__file__)), "database.sqlite"),
 )
 
+auth.oidc.init_app(app)
+
 # initialize Flask-SQLAlchemy properly
 db.init_app(app)
 
 
 app.register_blueprint(auth.bp)
-
-
-@app.route("/")
-def index():
-    return "Hello, World!"
+app.register_blueprint(blog.bp)
 
 
 @app.before_request
@@ -56,3 +55,17 @@ def before_request():
         g.user = auth.okta_client.get_user(auth.oidc.user_getfield("sub"))
     else:
         g.user = None
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    """Render 404 page."""
+
+    return render_template("errors/404.html"), 404
+
+
+@app.errorhandler(403)
+def unauthorized_access(e):
+    """Render 403 page."""
+
+    return render_template("errors/403.html"), 403

@@ -13,7 +13,8 @@ A simple Flask CRUD application with secure [Okta authentication](https://develo
 * Run `virtualenv ../flask-okta-venv --python=python3` for Mac/Linux.
 * Run `source ../flask-okta-venv/bin/activate` for Mac/Linux.
 * Run `pip install -r requirements.txt`.
-* Run `set SECRET_KEY=<some_secret_value>`
-* Run `set OKTA_AUTH_TOKEN=<okta_auth_token>`
-* Run `FLASK_APP=blog flask init-db` to initialize an sqlite database.
-* Run `FLASK_APP=blog flask run` to start the app.
+* Run `export SECRET_KEY=<some_secret_value>`
+* Run `export OKTA_AUTH_TOKEN=<okta_auth_token>`
+* Run `export FLASK_APP=blog`.
+* Run `flask init-db` to initialize an sqlite database.
+* Run `flask run` to start the app.

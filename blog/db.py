@@ -1,5 +1,3 @@
-# blog/db.py - code related to the database
-
 from datetime import datetime
 
 from click import command, echo

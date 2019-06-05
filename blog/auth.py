@@ -1,4 +1,5 @@
-# blog/auth.py - Login and Logout views
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 from os import environ
 
