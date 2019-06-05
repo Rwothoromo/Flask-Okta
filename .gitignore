@@ -21,3 +21,6 @@ instance/
 
 # IDE
 .vscode
+
+# Database
+database.sqlite

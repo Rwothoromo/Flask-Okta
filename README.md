@@ -9,8 +9,9 @@ A simple Flask CRUD application with secure [Okta authentication](https://develo
 
 ## Setup
 
-* Run `git clone ` and `cd` into the project root.
+* Run `git clone https://github.com/Rwothoromo/Flask-Okta.git` and `cd` into the project root.
 * Run `virtualenv ../flask-okta-venv --python=python3` for Mac/Linux.
 * Run `source ../flask-okta-venv/bin/activate` for Mac/Linux.
 * Run `pip install -r requirements.txt`.
+* Run `FLASK_APP=blog flask init-db` to initialize an sqlite database.
 * Run `FLASK_APP=blog flask run` to start the app.
