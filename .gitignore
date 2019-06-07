@@ -15,12 +15,15 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 
-# Flask stuff:
-instance/
-.webassets-cache
 
 # IDE
 .vscode
 
 # Database
-database.sqlite
+*.sqlite
+
+# Migrations
+migrations
+
+# Client secrets
+client_secrets.json

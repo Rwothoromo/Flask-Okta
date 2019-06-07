@@ -3,6 +3,7 @@
 
 from os import environ
 
+# third party imports
 from flask import Blueprint, redirect, url_for
 from flask_oidc import OpenIDConnect
 from okta import UsersClient
@@ -11,12 +12,14 @@ from okta import UsersClient
 # Blueprints help to modularize code and make it reusable in large systems.
 # Each has a name, a URL prefix, and it’s own mini application object.
 bp = Blueprint("auth", __name__, url_prefix="/")
+
 oidc = OpenIDConnect()
 OKTA_AUTH_TOKEN = environ.get(
     'OKTA_AUTH_TOKEN', "00aYeDir7eOx_xuUuaNTpPzH1ox3UKS_Etcq-vNkMI")
 
+OKTA_AUTH_URL = environ.get('OKTA_AUTH_URL', "https://dev-312288.okta.com")
 # Allows retrieval of user data from the Okta API
-okta_client = UsersClient("https://dev-312288.okta.com", OKTA_AUTH_TOKEN)
+okta_client = UsersClient(OKTA_AUTH_URL, OKTA_AUTH_TOKEN)
 
 
 @bp.route("/login")

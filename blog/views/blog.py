@@ -1,17 +1,14 @@
-from flask import Blueprint, abort, g, render_template, redirect, request, url_for
+# third party imports
+from flask import Blueprint, abort, flash, g, render_template, redirect, request, url_for
 from slugify import slugify
 
+# local imports
 from .auth import oidc, okta_client
-from .db import Post, db
+from ..db import db
+from ..models.post import Post
 
 
 bp = Blueprint("blog", __name__, url_prefix="/")
-
-
-def get_posts(author_id):
-    """Return all posts by this author, ordered (descending) by date."""
-
-    return Post.query.filter_by(author_id=author_id).order_by(Post.created.desc())
 
 
 @bp.route("/")
@@ -19,14 +16,20 @@ def index():
     """Render the homepage."""
 
     posts = Post.query.order_by(Post.created.desc())
-    posts_final = []
 
+    posts_final = []
     for post in posts:
         user = okta_client.get_user(post.author_id)
         post.author_name = user.profile.firstName + " " + user.profile.lastName
         posts_final.append(post)
 
     return render_template("blog/index.html", posts=posts_final)
+
+
+def get_posts(author_id):
+    """Return all posts by this author, ordered (descending) by date."""
+
+    return Post.query.filter_by(author_id=author_id).order_by(Post.created.desc())
 
 
 @bp.route("/dashboard", methods=["GET", "POST"])
@@ -37,19 +40,31 @@ def dashboard():
     if request.method == "GET":
         return render_template("blog/dashboard.html", posts=get_posts(g.user.id))
 
-    # create a blog post
-    post = Post(
-        title=request.form.get("title"),
-        body=request.form.get("body"),
-        author_id=g.user.id,
+    title = request.form["title"]
+    error = None
+
+    if not title:
+        error = 'Title is required.'
+
+    if error is not None:
+        flash(error)
+    else:
+        body = request.form["body"]
 
         # a blog post titled “Day out in Moscow” can have a slug 'day-out-in-moscow'
         # and be available at https://someblog.com/day-out-in-moscow
-        slug=slugify(request.form.get("title"))
-    )
+        slug = slugify(title)
 
-    db.session.add(post)
-    db.session.commit()
+        # create a blog post from the dashboard
+        post = Post(
+            title=title,
+            body=body,
+            author_id=g.user.id,
+            slug=slug
+        )
+
+        db.session.add(post)
+        db.session.commit()
 
     return render_template("blog/dashboard.html", posts=get_posts(g.user.id))
 
@@ -84,11 +99,23 @@ def edit_post(slug):
     if request.method == "GET":
         return render_template("blog/edit.html", post=post)
 
-    post.title = request.form.get("title")
-    post.body = request.form.get("body")
-    post.slug = slugify(request.form.get("title"))
+    title = request.form["title"]
+    error = None
 
-    db.session.commit()
+    if not title:
+        error = 'Title is required.'
+
+    if error is not None:
+        flash(error)
+    else:
+        body = request.form["body"]
+        slug = slugify(title)
+
+        post.title = title
+        post.body = body
+        post.slug = slug
+
+        db.session.commit()
     return redirect(url_for(".view_post", slug=post.slug))
 
 
