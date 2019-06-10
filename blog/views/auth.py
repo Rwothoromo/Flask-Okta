@@ -15,11 +15,11 @@ bp = Blueprint("auth", __name__, url_prefix="/")
 
 oidc = OpenIDConnect()
 OKTA_AUTH_TOKEN = environ.get(
-    'OKTA_AUTH_TOKEN', "00aYeDir7eOx_xuUuaNTpPzH1ox3UKS_Etcq-vNkMI")
+    'OKTA_AUTH_TOKEN', "use_accurate_auth_token_please")
 
-OKTA_AUTH_URL = environ.get('OKTA_AUTH_URL', "https://dev-312288.okta.com")
+OKTA_ORG_URL = environ.get('OKTA_ORG_URL', "use_accurate_auth_url_please")
 # Allows retrieval of user data from the Okta API
-okta_client = UsersClient(OKTA_AUTH_URL, OKTA_AUTH_TOKEN)
+okta_client = UsersClient(OKTA_ORG_URL, OKTA_AUTH_TOKEN)
 
 
 @bp.route("/login")

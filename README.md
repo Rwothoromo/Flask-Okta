@@ -5,11 +5,14 @@ A simple Flask CRUD application with secure [Okta authentication](https://develo
 ## Requirements
 
 - Install [Python 3](https://www.python.org/downloads/).
-- Run pip install virtualenv on command prompt
+- Run `pip install virtualenv` on command prompt.
 
 ## First things first
 
 - You need Okta, to store user accounts and provide easy authentication and authorization. Create an [Okta developer account](https://developer.okta.com/signup).
+- In your Okta dev account, create an app (under `Applications`) of type `Web` and set the redirect uris to `http://localhost:5000/oidc/callback`.
+- Also, get an API token under `API`.
+- Be sure to enable self-registration on the `Classic UI` under `Directory`.
 - Create a `client_secrets.json` file (with the details that follow) at the root of your project folder.
 
 ```json
@@ -22,8 +25,7 @@ A simple Flask CRUD application with secure [Okta authentication](https://develo
     "issuer": "{{ OKTA_ORG_URL }}/oauth2/default",
     "userinfo_uri": "{{ OKTA_ORG_URL }}/oauth2/default/userinfo",
     "redirect_uris": [
-      "http://localhost:5000",
-      "http://localhost:5000/oidc/callback"
+      "http://localhost:5000"
     ]
   }
 }
@@ -37,11 +39,11 @@ A simple Flask CRUD application with secure [Okta authentication](https://develo
 - Run `pip install -r requirements.txt`.
 - Run `export SECRET_KEY=<some_secret_value>`.
 - Run `export OKTA_AUTH_TOKEN=<okta_auth_token>`.
-- Run `export OKTA_AUTH_URL=<okta_auth_url>`.
-- Run `export SQLALCHEMY_DATABASE_URI=<sqlalchemy_database>`
+- Run `export OKTA_ORG_URL=<okta_org_url>`.
+- Run `export SQLALCHEMY_DATABASE_URI=<path_to_sqlalchemy_database>`
 - Run `export FLASK_ENV=development`
 - Run `export FLASK_APP=blog`.
-- Run the following:
+- Run the following to set up the database/migrations:
   - `python manage.py db init` to create a migration repository.
   - `python manage.py db migrate` to update the migration script.
   - `python manage.py db upgrade` to apply the migration to the database.
