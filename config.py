@@ -63,6 +63,7 @@ class DevelopmentConfig(Config):
 
     DEBUG = True
     SQLALCHEMY_ECHO = True
+    SQLALCHEMY_DATABASE_URI = "sqlite:///" + join(dirname(__file__), "database_dev.sqlite")
 
 
 class TestingConfig(Config):
@@ -71,6 +72,7 @@ class TestingConfig(Config):
     """
 
     TESTING = True
+    SQLALCHEMY_DATABASE_URI = "sqlite:///" + join(dirname(__file__), "database_test.sqlite")
 
 
 app_config = {
