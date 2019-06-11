@@ -3,6 +3,7 @@ from os import environ
 # third party imports
 from flask import Flask, g, render_template
 from flask_cors import CORS
+from logging import FileHandler, WARNING
 
 # local imports
 from config import app_config, configure_app
@@ -43,6 +44,12 @@ def create_app():
 
 
 app = create_app()
+
+# log errors if not debugging
+if not app.debug:
+    file_handler = FileHandler('error_log.txt')
+    file_handler.setLevel(WARNING)
+    app.logger.addHandler(file_handler)
 
 
 @app.before_request
