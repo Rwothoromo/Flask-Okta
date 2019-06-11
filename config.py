@@ -1,6 +1,9 @@
 from os import environ
 from os.path import join, dirname
 
+# Third party imports
+from flask_compress import Compress
+
 
 class Config:
     """
@@ -34,6 +37,15 @@ class Config:
     CSRF_ENABLED = True  # protect against CSRF attacks
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    # Gzip compression allows to reduce the size of the response by 70-90%
+    # Flask-Compress compresses the application’s response with gzip
+    COMPRESS_MIMETYPES = ['text/html', 'text/css', 'text/xml',
+                          'application/json', 'application/javascript']
+    COMPRESS_LEVEL = 6
+    COMPRESS_MIN_SIZE = 500
+
+    CACHE_TYPE = 'simple'  # compare with memcached, redis, filesystem, etc.
+
 
 class ProductionConfig(Config):
     """
@@ -66,3 +78,10 @@ app_config = {
     'production': ProductionConfig,
     'testing': TestingConfig
 }
+
+
+def configure_app(app):
+    """Multiple app configurations"""
+
+    # Configure Compressing
+    Compress(app)

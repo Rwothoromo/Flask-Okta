@@ -2,17 +2,22 @@ from os import environ
 from os.path import dirname, join
 
 # third party imports
+from dotenv import load_dotenv
 from flask import Flask, g, render_template
 from flask_cors import CORS
-from dotenv import load_dotenv
+from flask_compress import Compress
 
 # local imports
+from config import app_config, configure_app
 from blog.db import db
-from .views import auth, blog
-from config import app_config
+from blog.cache import cache
+from blog.utils import get_app_base_path
+from blog.admin.controllers import admin
+from blog.auth.controllers import auth, oidc
+from blog.main.controllers import main
 
 # load dotenv in the base root
-APP_ROOT = join(dirname(__file__), '..')
+APP_ROOT = get_app_base_path()  # join(dirname(__file__), '..')
 env_path = join(APP_ROOT, '.env')
 load_dotenv(dotenv_path=env_path)
 
@@ -25,13 +30,24 @@ def create_app():
     configuration = environ.get('FLASK_ENV', 'production')
     app.config.from_object(app_config[configuration])
 
-    auth.oidc.init_app(app)
+    oidc.init_app(app)
     db.init_app(app)
-    cors = CORS(app)
+
+    # Handle Cross Origin Resource Sharing, making cross-origin AJAX possible
+    # Allows a web application running at one origin (domain)
+    # to access selected resources from a server at a different origin
+    CORS(app)
+
+    # Configure Compressing
+    configure_app(app)
+
+    # Lazy initialization
+    cache.init_app(app)
 
     # apply the blueprints to the app
-    app.register_blueprint(auth.bp)
-    app.register_blueprint(blog.bp)
+    app.register_blueprint(admin, url_prefix='/admin')
+    app.register_blueprint(auth)
+    app.register_blueprint(main, url_prefix='/')
     return app
 
 
@@ -46,8 +62,8 @@ def before_request():
 
     # Check whether or not the server-side cookie (session created on log in) exists and is valid
 
-    g.user = auth.okta_client.get_user(auth.oidc.user_getfield(
-        "sub")) if auth.oidc.user_loggedin else None
+    g.user = auth.okta_client.get_user(oidc.user_getfield(
+        "sub")) if oidc.user_loggedin else None
 
 
 @app.errorhandler(404)
