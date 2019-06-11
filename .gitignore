@@ -24,3 +24,4 @@ coverage.xml
 migrations
 client_secrets.json
 .env
+error_log.txt
