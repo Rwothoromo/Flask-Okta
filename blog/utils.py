@@ -1,5 +1,5 @@
-import os
+from os.path import dirname, realpath
 
 
 def get_app_base_path():
-    return os.path.dirname(os.path.realpath(__file__))
+    return dirname(realpath(__file__))

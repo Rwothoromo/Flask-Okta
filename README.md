@@ -49,6 +49,7 @@ export FLASK_ENV=development
 export FLASK_APP=blog
 ```
 
+- Run `python run.py` to set the above variables and test the app.
 - Run the following to set up the database/migrations:
   - `python manage.py db init` to create a migration repository.
   - `python manage.py db migrate` to update the migration script.
