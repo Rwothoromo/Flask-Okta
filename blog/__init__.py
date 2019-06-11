@@ -1,13 +1,20 @@
 from os import environ
+from os.path import dirname, join
 
 # third party imports
 from flask import Flask, g, render_template
 from flask_cors import CORS
+from dotenv import load_dotenv
 
 # local imports
 from blog.db import db
 from .views import auth, blog
 from config import app_config
+
+# load dotenv in the base root
+APP_ROOT = join(dirname(__file__), '..')
+env_path = join(APP_ROOT, '.env')
+load_dotenv(dotenv_path=env_path)
 
 
 def create_app():
