@@ -19,11 +19,8 @@ coverage.xml
 # IDE
 .vscode
 
-# Database
+# App
 *.sqlite
-
-# Migrations
 migrations
-
-# Client secrets
 client_secrets.json
+.env

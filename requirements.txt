@@ -4,6 +4,7 @@ certifi==2019.3.9
 chardet==3.0.4
 Click==7.0
 Flask==1.0.3
+Flask-Compress==1.4.0
 Flask-Cors==3.0.8
 Flask-Migrate==2.5.2
 flask-oidc==1.4.0
@@ -21,6 +22,7 @@ pyasn1==0.4.5
 pyasn1-modules==0.2.5
 pyflakes==2.1.1
 python-dateutil==2.8.0
+python-dotenv==0.10.3
 python-editor==1.0.4
 python-slugify==3.0.2
 requests==2.22.0
