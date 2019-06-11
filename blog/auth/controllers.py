@@ -10,8 +10,8 @@ from okta import UsersClient
 
 
 # Blueprints help to modularize code and make it reusable in large systems.
-# Each has a name, a URL prefix, and it’s own mini application object.
-bp = Blueprint("auth", __name__, url_prefix="/")
+# Each has a name, possibly a URL prefix, and it’s own mini application object.
+auth = Blueprint("auth", __name__, url_prefix="/")
 
 oidc = OpenIDConnect()
 OKTA_AUTH_TOKEN = environ.get(
@@ -22,7 +22,7 @@ OKTA_ORG_URL = environ.get('OKTA_ORG_URL', "use_accurate_auth_url_please")
 okta_client = UsersClient(OKTA_ORG_URL, OKTA_AUTH_TOKEN)
 
 
-@bp.route("/login")
+@auth.route("/login")
 @oidc.require_login
 def login():
     """
@@ -36,7 +36,7 @@ def login():
     return redirect(url_for("blog.dashboard"))
 
 
-@bp.route("/logout")
+@auth.route("/logout")
 def logout():
     """
     Logs user out of their account.
