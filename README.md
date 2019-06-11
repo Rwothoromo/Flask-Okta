@@ -25,7 +25,8 @@ A simple Flask CRUD application with secure [Okta authentication](https://develo
     "issuer": "{{ OKTA_ORG_URL }}/oauth2/default",
     "userinfo_uri": "{{ OKTA_ORG_URL }}/oauth2/default/userinfo",
     "redirect_uris": [
-      "http://localhost:5000"
+      "http://localhost:5000",
+      "http://localhost:5000/oidc/callback"
     ]
   }
 }
@@ -37,15 +38,27 @@ A simple Flask CRUD application with secure [Okta authentication](https://develo
 - Run `virtualenv ../flask-okta-venv --python=python3` for Mac/Linux.
 - Run `source ../flask-okta-venv/bin/activate` for Mac/Linux.
 - Run `pip install -r requirements.txt`.
-- Run `export SECRET_KEY=<some_secret_value>`.
-- Run `export OKTA_AUTH_TOKEN=<okta_auth_token>`.
-- Run `export OKTA_ORG_URL=<okta_org_url>`.
-- Run `export SQLALCHEMY_DATABASE_URI=<path_to_sqlalchemy_database>`
-- Run `export FLASK_ENV=development`
-- Run `export FLASK_APP=blog`.
+- Create a `.env` file at the project root and add the following:
+
+```env
+export SECRET_KEY=<some_secret_value>
+export OKTA_AUTH_TOKEN=<okta_auth_token>
+export OKTA_ORG_URL=<okta_org_url>
+export SQLALCHEMY_DATABASE_URI=<path_to_sqlalchemy_database>
+export FLASK_ENV=development
+export FLASK_APP=blog
+```
+
+- Run `python run.py` to set the above variables and test the app.
 - Run the following to set up the database/migrations:
   - `python manage.py db init` to create a migration repository.
   - `python manage.py db migrate` to update the migration script.
   - `python manage.py db upgrade` to apply the migration to the database.
 - Run `python manage.py runserver` to run on the default ip and port.
 - View the app on `http://127.0.0.1:5000/`.
+
+## Extra
+
+If removing unnecessary files:
+
+- Run `find . | grep -E "(\__pycache__|database|\migrations)" | xargs rm -rf`.

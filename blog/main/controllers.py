@@ -3,15 +3,17 @@ from flask import Blueprint, abort, flash, g, render_template, redirect, request
 from slugify import slugify
 
 # local imports
-from .auth import oidc, okta_client
+from blog.cache import cache
+from blog.auth.controllers import oidc, okta_client
 from ..db import db
 from ..models.post import Post
 
 
-bp = Blueprint("blog", __name__, url_prefix="/")
+main = Blueprint('main', __name__)
 
 
-@bp.route("/")
+@main.route("/")
+@cache.cached(300, key_prefix='display_posts')
 def index():
     """Render the homepage."""
 
@@ -32,7 +34,7 @@ def get_posts(author_id):
     return Post.query.filter_by(author_id=author_id).order_by(Post.created.desc())
 
 
-@bp.route("/dashboard", methods=["GET", "POST"])
+@main.route("/dashboard", methods=["GET", "POST"])
 @oidc.require_login
 def dashboard():
     """Render user's dashboard."""
@@ -66,10 +68,13 @@ def dashboard():
         db.session.add(post)
         db.session.commit()
 
+        # reset the cache
+        cache.delete('display_posts')
+
     return render_template("blog/dashboard.html", posts=get_posts(g.user.id))
 
 
-@bp.route("/<slug>")
+@main.route("/<slug>")
 def view_post(slug):
     """View a post based off slug URL."""
 
@@ -83,7 +88,7 @@ def view_post(slug):
     return render_template("blog/post.html", post=post)
 
 
-@bp.route("/<slug>/edit", methods=["GET", "POST"])
+@main.route("/<slug>/edit", methods=["GET", "POST"])
 def edit_post(slug):
     """Edit a post based off the slug URL."""
 
@@ -116,10 +121,14 @@ def edit_post(slug):
         post.slug = slug
 
         db.session.commit()
+
+        # reset the cache
+        cache.delete('display_posts')
+
     return redirect(url_for(".view_post", slug=post.slug))
 
 
-@bp.route("/<slug>/delete", methods=["POST"])
+@main.route("/<slug>/delete", methods=["POST"])
 def delete_post(slug):
     """Delete a post based off the slug URL."""
 
@@ -132,5 +141,8 @@ def delete_post(slug):
 
     db.session.delete(post)
     db.session.commit()
+
+    # reset the cache
+    cache.delete('display_posts')
 
     return redirect(url_for(".dashboard"))
