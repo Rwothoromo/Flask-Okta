@@ -38,18 +38,23 @@ A simple Flask CRUD application with secure [Okta authentication](https://develo
 - Run `virtualenv ../flask-okta-venv --python=python3` for Mac/Linux.
 - Run `source ../flask-okta-venv/bin/activate` for Mac/Linux.
 - Run `pip install -r requirements.txt`.
+- Run `createdb <flask_okta_db>` and `createdb <test_flask_okta_db>`.
 - Create a `.env` file at the project root and add the following:
 
 ```env
-export SECRET_KEY=<some_secret_value>
-export OKTA_AUTH_TOKEN=<okta_auth_token>
-export OKTA_ORG_URL=<okta_org_url>
-export SQLALCHEMY_DATABASE_URI=<path_to_sqlalchemy_database>
-export FLASK_ENV=development
-export FLASK_APP=blog
+export SECRET_KEY='<some_secret_value>'
+export OKTA_AUTH_TOKEN='<okta_auth_token>'
+export OKTA_ORG_URL='<okta_org_url>'
+export DATABASE_URL='postgresql://<db_user>:<password>@localhost/<flask_okta_db>'
+export CLOUDSQL_USER='<cloudsql_user>'
+export CLOUDSQL_PASSWORD='<cloudsql_password>'
+export CLOUDSQL_DATABASE='<cloudsql_database>'
+export CLOUD_STORAGE_BUCKET='<cloud_storage_bucket></cloud_storage_bucket>'
+export FLASK_ENV='development'
+export FLASK_APP='blog'
 ```
 
-- Run `python run.py` to set the above variables and test the app.
+- Run `source .env` to set the above variables.
 - Run the following to set up the database/migrations:
   - `python manage.py db init` to create a migration repository.
   - `python manage.py db migrate` to update the migration script.
