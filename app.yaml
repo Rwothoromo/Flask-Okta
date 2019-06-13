@@ -8,7 +8,6 @@ env_variables:
   OKTA_ORG_URL: "https://dev-312288.okta.com"
   FLASK_ENV: "production"
   FLASK_APP: "blog"
-  CLOUDSQL_CONNECTION_NAME: "flask-okta:us-central1:flask-okta-1"
 
 handlers:
 # Matches requests to /images/... to files in static/images/...

@@ -53,10 +53,6 @@ class Config:
     CLOUDSQL_DATABASE = environ['CLOUDSQL_DATABASE']
     DB_HOST_IP = environ['DB_HOST_IP']
     DB_HOST_PORT = environ['DB_HOST_PORT']
-    # Set this value to the Cloud SQL connection name, e.g.
-    #   "project:region:cloudsql-instance".
-    # You must also update the value in app.yaml.
-    CLOUDSQL_CONNECTION_NAME = environ['CLOUDSQL_CONNECTION_NAME']
 
     # The CloudSQL proxy is used locally to connect to the cloudsql instance.
     # To start the proxy, use:
