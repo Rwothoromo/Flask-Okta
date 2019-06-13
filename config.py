@@ -13,8 +13,6 @@ class Config:
     # private variable used by Flask to secure/encrypt session cookies
     SECRET_KEY = environ['SECRET_KEY']
 
-    SQLALCHEMY_DATABASE_URI = environ['DATABASE_URL']
-
     # get the root url and concantenate it with the client secrets file
     OIDC_CLIENT_SECRETS = join(dirname(__file__), "client_secrets.json")
 
@@ -53,6 +51,8 @@ class Config:
     CLOUDSQL_USER = environ['CLOUDSQL_USER']
     CLOUDSQL_PASSWORD = environ['CLOUDSQL_PASSWORD']
     CLOUDSQL_DATABASE = environ['CLOUDSQL_DATABASE']
+    DB_HOST_IP = environ['DB_HOST_IP']
+    DB_HOST_PORT = environ['DB_HOST_PORT']
     # Set this value to the Cloud SQL connection name, e.g.
     #   "project:region:cloudsql-instance".
     # You must also update the value in app.yaml.
@@ -73,11 +73,8 @@ class Config:
             database=CLOUDSQL_DATABASE)
 
     # When running on App Engine, a unix socket is used to connect to the cloudsql instance.
-    LIVE_SQLALCHEMY_DATABASE_URI = (
-        'postgresql://{user}:{password}@localhost/{database}'
-        '?unix_socket=/cloudsql/{connection_name}').format(
-            user=CLOUDSQL_USER, password=CLOUDSQL_PASSWORD,
-            database=CLOUDSQL_DATABASE, connection_name=CLOUDSQL_CONNECTION_NAME)
+    LIVE_SQLALCHEMY_DATABASE_URI = ('postgresql://{}:{}@{}:{}/{}?unix_socket=/cloudsql/{}').format(
+        CLOUDSQL_USER, CLOUDSQL_PASSWORD, DB_HOST_IP, DB_HOST_PORT, CLOUDSQL_DATABASE, CLOUDSQL_CONNECTION_NAME)
 
     SQLALCHEMY_DATABASE_URI = LIVE_SQLALCHEMY_DATABASE_URI if environ.get(
         'GAE_INSTANCE') else LOCAL_SQLALCHEMY_DATABASE_URI
