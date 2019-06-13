@@ -68,16 +68,14 @@ class Config:
 
     # Alternatively, use a local MySQL instance for testing.
     LOCAL_SQLALCHEMY_DATABASE_URI = (
-        'postgresql://{user}:{password}@127.0.0.1:3306/{database}').format(
-            user=CLOUDSQL_USER, password=CLOUDSQL_PASSWORD,
-            database=CLOUDSQL_DATABASE)
+        'postgresql://{}:{}@127.0.0.1:5432/{}').format(CLOUDSQL_USER, CLOUDSQL_PASSWORD, CLOUDSQL_DATABASE)
 
     # When running on App Engine, a unix socket is used to connect to the cloudsql instance.
-    LIVE_SQLALCHEMY_DATABASE_URI = ('postgresql://{}:{}@{}:{}/{}?unix_socket=/cloudsql/{}').format(
-        CLOUDSQL_USER, CLOUDSQL_PASSWORD, DB_HOST_IP, DB_HOST_PORT, CLOUDSQL_DATABASE, CLOUDSQL_CONNECTION_NAME)
+    LIVE_SQLALCHEMY_DATABASE_URI = ('postgresql://{}:{}@{}:{}/{}').format(
+        CLOUDSQL_USER, CLOUDSQL_PASSWORD, DB_HOST_IP, DB_HOST_PORT, CLOUDSQL_DATABASE)
 
     SQLALCHEMY_DATABASE_URI = LIVE_SQLALCHEMY_DATABASE_URI if environ.get(
-        'GAE_INSTANCE') else LOCAL_SQLALCHEMY_DATABASE_URI
+        'FLASK_ENV') == 'production' else LOCAL_SQLALCHEMY_DATABASE_URI
 
     # Mongo configuration
     # If using mongolab, the connection URI is available from the mongolab control
