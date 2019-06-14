@@ -64,6 +64,7 @@ export FLASK_APP='blog'
 - Run `python manage.py runserver` to run on the default ip and port.
 - View the app on `http://127.0.0.1:5000/` or `http://35.239.48.56/` for Google Cloud Platform.
 
+
 ## Extra
 
 If removing unnecessary files:
