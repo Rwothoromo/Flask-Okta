@@ -1,6 +1,7 @@
 # Flask-Okta
 
 A simple Flask CRUD application with secure [Okta authentication](https://developer.okta.com/blog/2018/07/23/build-a-simple-crud-app-with-flask-and-python).
+Visit [the app](http://35.239.48.56/) hosted on Google Cloud Platform (GCP)!
 
 ## Requirements
 
@@ -61,7 +62,7 @@ export FLASK_APP='blog'
   - `python manage.py db migrate` to update the migration script.
   - `python manage.py db upgrade` to apply the migration to the database.
 - Run `python manage.py runserver` to run on the default ip and port.
-- View the app on `http://127.0.0.1:5000/`.
+- View the app on `http://127.0.0.1:5000/` or `http://35.239.48.56/` for Google Cloud Platform.
 
 ## Extra
 
