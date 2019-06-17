@@ -33,7 +33,7 @@ def login():
     or logging into an existing account.
     """
 
-    return redirect(url_for("blog.dashboard"))
+    return redirect(url_for("main.dashboard"))
 
 
 @auth.route("/logout")
@@ -46,4 +46,4 @@ def logout():
     """
 
     oidc.logout()
-    return redirect(url_for("blog.index"))
+    return redirect(url_for("main.index"))
