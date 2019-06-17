@@ -2,6 +2,7 @@
 # Sets up env variables and runs app
 sudo su -
 cd Flask-Okta
-virtualenv ../flask-okta-venv --python=python3
+source ../flask-okta-venv/bin/activate
 source .env
 python manage.py runserver
+
