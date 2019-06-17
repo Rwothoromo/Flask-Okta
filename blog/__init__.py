@@ -10,7 +10,7 @@ from config import app_config, configure_app
 from blog.db import db
 from blog.cache import cache
 from blog.admin.controllers import admin
-from blog.auth.controllers import auth, oidc
+from blog.auth.controllers import auth, oidc, okta_client
 from blog.main.controllers import main
 
 
@@ -60,7 +60,7 @@ def before_request():
 
     # Check whether or not the server-side cookie (session created on log in) exists and is valid
 
-    g.user = auth.okta_client.get_user(oidc.user_getfield(
+    g.user = okta_client.get_user(oidc.user_getfield(
         "sub")) if oidc.user_loggedin else None
 
 
