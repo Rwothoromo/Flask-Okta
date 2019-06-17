@@ -4,4 +4,4 @@ sudo su -
 cd /home/elijah_rwothoromo/Flask-Okta
 source ../flask-okta-venv/bin/activate
 source .env
-python manage.py runserver
+python3 manage.py runserver
