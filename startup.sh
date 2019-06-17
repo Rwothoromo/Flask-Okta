@@ -1,14 +1,7 @@
 #! /bin/bash
-# Sets up env variables and database
+# Sets up env variables and runs app
 sudo su -
-sudo apt update
-sudo apt install python3-pip
-pip3 install virtualenv
-cd Flask-Okta
-virtualenv ../flask-okta-venv --python=python3
-pip install -r requirements.txt
+cd /home/elijah_rwothoromo/Flask-Okta
+source ../flask-okta-venv/bin/activate
 source .env
-python manage.py db init
-python manage.py db migrate
-python manage.py db upgrade
-python manage.py runserver
+python3 manage.py runserver
