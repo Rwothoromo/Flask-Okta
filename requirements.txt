@@ -6,7 +6,7 @@ Click==7.0
 Flask==1.0.3
 Flask-Caching==1.7.2
 Flask-Compress==1.4.0
-Flask-Cors==3.0.8
+Flask-Cors==3.0.9
 Flask-Migrate==2.5.2
 flask-oidc==1.4.0
 Flask-Script==2.0.6
